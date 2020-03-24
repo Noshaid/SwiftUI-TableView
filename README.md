@@ -5,9 +5,11 @@ Setup UITableViewDiffableDataSource
 
 1. Initialize datasource with sections and item type
 2. Render cell for each type
-  a. Drawing SwiftUI in UITableViewCells
+  - Drawing SwiftUI in UITableViewCells
+  - Draw image and text in HStack
 3. Add new contacts
-  a. Presenting SwiftUI UIHostingController
+  - Presenting SwiftUI UIHostingController
+  - Use ObservableObject to change cell data
 4. Delete on swipe
 5. Mark contact as favorite
 
