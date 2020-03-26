@@ -16,6 +16,44 @@ struct Contact: Hashable {
     let name: String
 }
 
+class ContactViewModel: ObservableObject {
+    @Published var name = ""
+}
+
+struct ContactRootView: View {
+    
+    @ObservedObject var viewModel: ContactViewModel
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "person.fill")
+            Text(viewModel.name)
+            Spacer()
+            Image(systemName: "star")
+        }.padding(20)
+    }
+}
+
+class ContactCell: UITableViewCell {
+    
+    var viewModel = ContactViewModel()
+    lazy var row = ContactRootView(viewModel: viewModel)
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        //setup SwiftUI view
+        let hostingController = UIHostingController(rootView: row)
+        addSubview(hostingController.view)
+        hostingController.view.fillSuperview()
+        viewModel.name = "ABC"
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
 class DiffableTableViewController: UITableViewController {
     
     //UITableViewDiffableDataSource
@@ -23,8 +61,8 @@ class DiffableTableViewController: UITableViewController {
     lazy var source: UITableViewDiffableDataSource<SectionType, Contact> = .init(tableView: self.tableView) {
         (tableView, indexPath, conatct) -> UITableViewCell? in
         
-        let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = conatct.name
+        let cell = ContactCell(style: .default, reuseIdentifier: nil)
+        cell.viewModel.name = conatct.name
         return cell
     }
     

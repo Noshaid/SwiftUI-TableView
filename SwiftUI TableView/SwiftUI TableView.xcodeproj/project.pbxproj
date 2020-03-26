@@ -15,6 +15,8 @@
 		BA14EDBB2427B98900113593 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA14EDB92427B98900113593 /* LaunchScreen.storyboard */; };
 		BA14EDC62427B98900113593 /* SwiftUI_TableViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA14EDC52427B98900113593 /* SwiftUI_TableViewTests.swift */; };
 		BA14EDD12427B98900113593 /* SwiftUI_TableViewUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA14EDD02427B98900113593 /* SwiftUI_TableViewUITests.swift */; };
+		BA5EE9AC242BEF1700B3529F /* UIView+Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EE9AB242BEF1700B3529F /* UIView+Layout.swift */; };
+		BA5EE9AE242BEF3800B3529F /* AnchoredConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA5EE9AD242BEF3800B3529F /* AnchoredConstraints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		BA14EDCC2427B98900113593 /* SwiftUI TableViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftUI TableViewUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA14EDD02427B98900113593 /* SwiftUI_TableViewUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUI_TableViewUITests.swift; sourceTree = "<group>"; };
 		BA14EDD22427B98900113593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA5EE9AB242BEF1700B3529F /* UIView+Layout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Layout.swift"; sourceTree = "<group>"; };
+		BA5EE9AD242BEF3800B3529F /* AnchoredConstraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnchoredConstraints.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +103,7 @@
 		BA14EDAD2427B98800113593 /* SwiftUI TableView */ = {
 			isa = PBXGroup;
 			children = (
+				BA5EE9AF242BF0D300B3529F /* Support */,
 				BA14EDAE2427B98800113593 /* AppDelegate.swift */,
 				BA14EDB02427B98800113593 /* SceneDelegate.swift */,
 				BA14EDB22427B98800113593 /* ContentView.swift */,
@@ -134,6 +139,15 @@
 				BA14EDD22427B98900113593 /* Info.plist */,
 			);
 			path = "SwiftUI TableViewUITests";
+			sourceTree = "<group>";
+		};
+		BA5EE9AF242BF0D300B3529F /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				BA5EE9AD242BEF3800B3529F /* AnchoredConstraints.swift */,
+				BA5EE9AB242BEF1700B3529F /* UIView+Layout.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -267,7 +281,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA5EE9AC242BEF1700B3529F /* UIView+Layout.swift in Sources */,
 				BA14EDAF2427B98800113593 /* AppDelegate.swift in Sources */,
+				BA5EE9AE242BEF3800B3529F /* AnchoredConstraints.swift in Sources */,
 				BA14EDB12427B98800113593 /* SceneDelegate.swift in Sources */,
 				BA14EDB32427B98800113593 /* ContentView.swift in Sources */,
 			);
