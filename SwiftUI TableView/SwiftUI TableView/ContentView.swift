@@ -12,12 +12,19 @@ enum SectionType {
     case ceo, peasants
 }
 
-struct Contact: Hashable {
+class Contact: NSObject {
+    
     let name: String
+    var isFavorite = false
+    
+    init(name: String) {
+        self.name = name
+    }
 }
 
 class ContactViewModel: ObservableObject {
     @Published var name = ""
+    @Published var isFavorite = false
 }
 
 struct ContactRootView: View {
@@ -25,11 +32,13 @@ struct ContactRootView: View {
     @ObservedObject var viewModel: ContactViewModel
     
     var body: some View {
-        HStack {
+        HStack(spacing: 16) {
             Image(systemName: "person.fill")
+            .font(.system(size: 34))
             Text(viewModel.name)
             Spacer()
-            Image(systemName: "star")
+            Image(systemName: viewModel.isFavorite ? "star.fill" : "star")
+            .font(.system(size: 24))
         }.padding(20)
     }
 }
@@ -54,16 +63,46 @@ class ContactCell: UITableViewCell {
     }
 }
 
+class ContactsSource: UITableViewDiffableDataSource<SectionType, Contact> {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+}
+
 class DiffableTableViewController: UITableViewController {
     
     //UITableViewDiffableDataSource
-    
-    lazy var source: UITableViewDiffableDataSource<SectionType, Contact> = .init(tableView: self.tableView) {
+    lazy var source: ContactsSource = .init(tableView: self.tableView) {
         (tableView, indexPath, conatct) -> UITableViewCell? in
         
         let cell = ContactCell(style: .default, reuseIdentifier: nil)
         cell.viewModel.name = conatct.name
+        cell.viewModel.isFavorite = conatct.isFavorite
         return cell
+    }
+
+    override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") {
+            (action, view, completion) in
+            
+            var snapshot = self.source.snapshot()
+            guard let contact = self.source.itemIdentifier(for: indexPath) else { return }
+            snapshot.deleteItems([contact])
+            self.source.apply(snapshot)
+        }
+        
+        let favoriteAction = UIContextualAction(style: .normal, title: "Favorite") {
+            (action, view, completion) in
+            
+            var snapshot = self.source.snapshot()
+            guard let contact = self.source.itemIdentifier(for: indexPath) else { return }
+            contact.isFavorite.toggle()
+            snapshot.reloadItems([contact])
+            self.source.apply(snapshot)
+        }
+        
+        return .init(actions: [deleteAction, favoriteAction])
     }
     
     private func setupSource() {
