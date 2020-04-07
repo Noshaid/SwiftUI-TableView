@@ -131,7 +131,69 @@ class DiffableTableViewController: UITableViewController {
         navigationItem.title = "Contacts"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        navigationItem.rightBarButtonItem = .init(title: "Add", style: .plain, target: self, action: #selector(handleAdd))
+        
         setupSource()
+    }
+    
+    @objc private func handleAdd() {
+        let formView = ContactFormView { (name, sectionType)  in
+            self.dismiss(animated: true)
+            
+            var snapshot = self.source.snapshot()
+            snapshot.appendItems([.init(name: name)], toSection: sectionType)
+            self.source.apply(snapshot)
+        }
+        let hostingController = UIHostingController(rootView: formView)
+        present(hostingController, animated: true)
+    }
+}
+
+struct ContactFormView: View {
+    
+    var didAddContact: (String, SectionType) -> () = { _, _ in }
+    @State private var name = ""
+    @State private var sectionType = SectionType.ceo
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            TextField("Name", text: $name)
+            
+            Picker(selection: $sectionType, label: Text("") ) {
+                Text("CEO").tag(SectionType.ceo)
+                Text("Peasants").tag(SectionType.peasants)
+            }.pickerStyle(SegmentedPickerStyle())
+            
+            Button(action: {
+                self.didAddContact(self.name, self.sectionType)
+            }, label: {
+                HStack {
+                    Spacer()
+                    Text("Add").foregroundColor(Color.white)
+                    Spacer()
+                }.padding().background(Color.blue)
+                .cornerRadius(5)
+            })
+            
+            Button(action: {
+                
+            }, label: {
+                HStack {
+                    Spacer()
+                    Text("Cancel").foregroundColor(Color.white)
+                    Spacer()
+                }.padding().background(Color.red)
+                .cornerRadius(5)
+            })
+            
+            Spacer()
+        }.padding()
+    }
+}
+
+struct ContactFormPreview: PreviewProvider {
+    static var previews: some View {
+        ContactFormView()
     }
 }
 
